@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+
+
+
+	<form-beans>
+		<form-bean name="userForm" type="cn.zxg.crud.logon.UserForm" />
+	</form-beans>
+
+	<global-exceptions>
+		<exception key="exception.logonNotPass" type="cn.zxg.crud.exception.LogonNotpassException"
+			path="/welcome.jsp" />
+	</global-exceptions>
+
+<!-- path  -->
+<!-- The module-relative path to the resources that is encapsulated by the logical name of this ActionForward. This value should begin with a slash ("/") character. -->
+	<global-forwards>
+		<forward name="welcome" path="/welcome.do" />
+	</global-forwards>
+
+<!-- path  -->
+<!-- The module-relative path of the submitted request, starting with a "/" character, and without the filename extension if extension mapping is used.  -->
+<!-- NOTE: Do *not* include a period in your path name, because it will look like a filename extension and cause your Action to not be located.  -->
+	<action-mappings>
+		<action path="/welcome" 
+				forward="/pages/welcome.jsp" />
+				
+		<action path="/logon" 
+				type="cn.zxg.crud.logon.LogonAction"
+				name="userForm" 
+				scope="request" 
+				input="/pages/welcome.jsp"
+				cancellable="true" 
+				validate="true">
+			<forward name="success" path="/pages/list.jsp" />
+		</action>
+		
+		<action path="/userRetrive" 
+				type="cn.zxg.crud.user.UserRetriveAction" />
+				
+		<action path="/userUpdate" 
+				type="cn.zxg.crud.user.UserUpdateAction"  />
+				
+		<action path="/userDelete" 
+				type="cn.zxg.crud.user.UserDeleteAction"  />
+	</action-mappings>
+
+	<message-resources parameter="MessageResources" />
+
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames"
+			value="/org/apache/struts/validator/validator-rules.xml,
+                /WEB-INF/classes/validation.xml" />
+	</plug-in>
+
+</struts-config>
+
